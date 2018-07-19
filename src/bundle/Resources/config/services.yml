@@ -1,0 +1,8 @@
+services:
+    EzSystems\EzPlatformRedis\Cache\ItemSerializerFactory:
+        arguments: ['%ezplatform_redis.igbinary%', '%ezplatform_redis.lzf%']
+
+    EzSystems\EzPlatformRedis\Cache\ItemSerializerInterface:
+        factory: 'EzSystems\EzPlatformRedis\Cache\ItemSerializerFactory:create'
+        class: EzSystems\EzPlatformRedis\Cache\ItemSerializerInterface
+        lazy: true
