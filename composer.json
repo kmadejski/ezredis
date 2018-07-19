@@ -1,0 +1,30 @@
+{
+  "name": "ezsystems/ezplatform-redis",
+  "description": "EzRedisBundle provides support for igbinary serializer and lzf compressor for Symfony's Redis cache driver",
+
+  "autoload": {
+    "psr-4": {
+      "EzSystems\\EzPlatformRedisBundle\\": "src/bundle/",
+      "EzSystems\\EzPlatformRedis\\": "src/lib/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "EzSystems\\EzPlatformRedis\\Tests\\": "src/lib/Tests"
+    }
+  },
+  "require": {
+    "php": "^5.6 | ^7.0",
+    "symfony/cache": "~3.4",
+    "symfony/framework-bundle": "~3.4"
+  },
+  "require-dev": {
+    "friendsofphp/php-cs-fixer": "~2.7.1",
+    "phpunit/phpunit": "^6.4",
+    "matthiasnoback/symfony-dependency-injection-test": "^2.3",
+    "predis/predis": "~1.0"
+  },
+  "scripts": {
+    "fix-cs": "@php ./vendor/bin/php-cs-fixer fix -v --show-progress=estimating"
+  }
+}
