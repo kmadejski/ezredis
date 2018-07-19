@@ -1,0 +1,17 @@
+<phpunit
+        backupGlobals="false"
+        backupStaticAttributes="false"
+        bootstrap="bootstrap.php"
+        convertErrorsToExceptions="true"
+        convertNoticesToExceptions="true"
+        convertWarningsToExceptions="true"
+        colors="true">
+    <testsuites>
+        <testsuite name="EzSystems\EzRedisBundle">
+            <directory>src/bundle/Tests</directory>
+        </testsuite>
+        <testsuite name="EzSystems\EzRedis">
+            <directory>src/lib/Tests</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>
