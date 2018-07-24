@@ -25,7 +25,8 @@ You have to configure the bundle in your `app/config/ezplatform.yml` or `app/con
 
 ```yml
 ez_platform_redis:
-    igbinary: true
-    lzf: true
+    serializer: igbinary    // possible options: native, igbinary
+    compressor: lzf         // possible options: none, lzf
+    marshaller: default     // possible options: default
 ```
  

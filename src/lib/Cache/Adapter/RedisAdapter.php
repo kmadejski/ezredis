@@ -8,8 +8,7 @@ declare(strict_types=1);
 
 namespace EzSystems\EzPlatformRedis\Cache\Adapter;
 
-use EzSystems\EzPlatformRedis\Cache\ItemSerializerInterface;
-use EzSystems\EzPlatformRedis\Cache\Serializer\IgbinarySerializer;
+use EzSystems\EzPlatformRedis\Cache\MarshallerInterface;
 use Predis\Response\Status;
 use Symfony\Component\Cache\Adapter\AbstractAdapter;
 use Symfony\Component\Cache\Traits\RedisTrait;
@@ -19,13 +18,13 @@ class RedisAdapter extends AbstractAdapter
     use RedisTrait;
 
     /**
-     * @var ItemSerializerInterface
+     * @var MarshallerInterface
      */
-    private static $serializer;
+    private static $marshaller;
 
-    public function __construct($redisClient, $namespace = '', $defaultLifetime = 0, ItemSerializerInterface $serializer = null)
+    public function __construct($redisClient, $namespace = '', $defaultLifetime = 0, MarshallerInterface $marshaller = null)
     {
-        self::$serializer = $serializer ?? new IgbinarySerializer();
+        self::$marshaller = $marshaller;
 
         $this->init($redisClient, $namespace, $defaultLifetime);
     }
@@ -42,12 +41,9 @@ class RedisAdapter extends AbstractAdapter
      */
     protected static function unserialize($value)
     {
-        if ('b:0;' === $value) {
-            return false;
-        }
         $unserializeCallbackHandler = ini_set('unserialize_callback_func', __CLASS__ . '::handleUnserializeCallback');
         try {
-            if (false !== $value = self::$serializer->unserialize($value)) {
+            if (false !== $value = self::$marshaller->unmarshall($value)) {
                 return $value;
             }
             throw new \DomainException('Failed to unserialize cached value');
@@ -74,7 +70,7 @@ class RedisAdapter extends AbstractAdapter
 
         foreach ($values as $id => $value) {
             try {
-                $serialized[$id] = self::$serializer->serialize($value);
+                $serialized[$id] = self::$marshaller->marshall($value);
             } catch (\Exception $e) {
                 $failed[] = $id;
             }

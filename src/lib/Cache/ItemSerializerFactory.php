@@ -9,25 +9,18 @@ declare(strict_types=1);
 namespace EzSystems\EzPlatformRedis\Cache;
 
 use EzSystems\EzPlatformRedis\Cache\Serializer\IgbinarySerializer;
-use EzSystems\EzPlatformRedis\Cache\Serializer\LZFCompressor;
 use EzSystems\EzPlatformRedis\Cache\Serializer\NativeSerializer;
 
 class ItemSerializerFactory
 {
     /**
-     * @var bool
+     * @var string
      */
-    private $igbinary;
+    private $serializer;
 
-    /**
-     * @var bool
-     */
-    private $lzf;
-
-    public function __construct(bool $igbinary, bool $lzf)
+    public function __construct(string $serializer)
     {
-        $this->igbinary = $igbinary;
-        $this->lzf = $lzf;
+        $this->serializer = $serializer;
     }
 
     /**
@@ -35,18 +28,10 @@ class ItemSerializerFactory
      */
     public function create(): ItemSerializerInterface
     {
-        $serializer = null;
-
-        if ($this->igbinary) {
-            $serializer = new IgbinarySerializer();
-        } else {
-            $serializer = new NativeSerializer();
+        if ($this->serializer === 'igbinary') {
+            return new IgbinarySerializer();
         }
 
-        if ($this->lzf) {
-            $serializer = new LZFCompressor($serializer);
-        }
-
-        return $serializer;
+        return new NativeSerializer();
     }
 }

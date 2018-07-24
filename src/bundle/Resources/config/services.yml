@@ -1,8 +1,24 @@
 services:
     EzSystems\EzPlatformRedis\Cache\ItemSerializerFactory:
-        arguments: ['%ezplatform_redis.igbinary%', '%ezplatform_redis.lzf%']
-
+        arguments: ['%ezplatform_redis.serializer%']
     EzSystems\EzPlatformRedis\Cache\ItemSerializerInterface:
         factory: 'EzSystems\EzPlatformRedis\Cache\ItemSerializerFactory:create'
         class: EzSystems\EzPlatformRedis\Cache\ItemSerializerInterface
+        lazy: true
+
+    EzSystems\EzPlatformRedis\Cache\ItemCompressorFactory:
+        arguments: ['%ezplatform_redis.compressor%']
+    EzSystems\EzPlatformRedis\Cache\ItemCompressorInterface:
+        factory: 'EzSystems\EzPlatformRedis\Cache\ItemCompressorFactory:create'
+        class: EzSystems\EzPlatformRedis\Cache\ItemCompressorInterface
+        lazy: true
+
+    EzSystems\EzPlatformRedis\Cache\MarshallerFactory:
+        autowire: true
+        autoconfigure: true
+        arguments:
+            $marshaller: '%ezplatform_redis.marshaller%'
+    EzSystems\EzPlatformRedis\Cache\MarshallerInterface:
+        factory: 'EzSystems\EzPlatformRedis\Cache\MarshallerFactory:create'
+        class: EzSystems\EzPlatformRedis\Cache\MarshallerInterface
         lazy: true

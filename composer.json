@@ -1,6 +1,6 @@
 {
   "name": "ezsystems/ezplatform-redis",
-  "description": "EzRedisBundle provides support for igbinary serializer and lzf compressor for Symfony's Redis cache driver",
+  "description": "eZ Platform Redis Bundle provides support for serializers (igbinary) and compressors (lzf) for Symfony's Redis cache driver",
 
   "autoload": {
     "psr-4": {

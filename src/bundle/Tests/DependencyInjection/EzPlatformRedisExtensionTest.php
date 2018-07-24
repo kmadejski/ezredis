@@ -32,15 +32,15 @@ class EzPlatformRedisExtensionTest extends AbstractExtensionTestCase
     public function testExtension(): void
     {
         $configuration = [
-            'igbinary' => false,
-            'lzf' => false,
+            'serializer' => 'igbinary',
+            'compressor' => 'lzf',
         ];
 
         $this->load($configuration);
 
-        $this->assertTrue($this->container->hasParameter('ezplatform_redis.igbinary'));
-        $this->assertTrue($this->container->hasParameter('ezplatform_redis.lzf'));
-        $this->assertSame($configuration['igbinary'], $this->container->getParameter('ezplatform_redis.igbinary'));
-        $this->assertSame($configuration['lzf'], $this->container->getParameter('ezplatform_redis.lzf'));
+        $this->assertTrue($this->container->hasParameter('ezplatform_redis.serializer'));
+        $this->assertTrue($this->container->hasParameter('ezplatform_redis.compressor'));
+        $this->assertSame($configuration['serializer'], $this->container->getParameter('ezplatform_redis.serializer'));
+        $this->assertSame($configuration['compressor'], $this->container->getParameter('ezplatform_redis.compressor'));
     }
 }

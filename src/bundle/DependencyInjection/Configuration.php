@@ -20,22 +20,37 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-                ->booleanNode('igbinary')
-                    ->defaultFalse()
+                ->scalarNode('serializer')
+                    ->defaultValue('native')
                     ->validate()
-                        ->ifTrue(function ($igbinary) {
-                            return $igbinary && !extension_loaded('igbinary');
+                        ->ifNotInArray(['native', 'igbinary'])
+                        ->thenInvalid('Invalid serializer %s')
+                        ->ifTrue(function ($value) {
+                            if ($value === 'igbinary') {
+                                return !extension_loaded('igbinary');
+                            }
                         })
-                       ->thenInvalid('PHP extension "igbinary" is not installed!')
+                        ->thenInvalid('PHP extension "igbinary" is not installed!')
                     ->end()
                 ->end()
-                ->booleanNode('lzf')
-                    ->defaultFalse()
+                ->scalarNode('compressor')
+                    ->defaultValue('none')
                     ->validate()
-                        ->ifTrue(function ($lzf) {
-                            return $lzf && !extension_loaded('lzf');
+                        ->ifNotInArray(['none', 'lzf'])
+                        ->thenInvalid('Invalid compressor %s')
+                        ->ifTrue(function ($value) {
+                            if ($value === 'lzf') {
+                                return !extension_loaded('lzf');
+                            }
                         })
                         ->thenInvalid('PHP extension "lzf" is not installed!')
+                    ->end()
+                ->end()
+                ->scalarNode('marshaller')
+                    ->defaultValue('default')
+                    ->validate()
+                        ->ifNotInArray(['default'])
+                        ->thenInvalid('Invalid marshaller %s')
                     ->end()
                 ->end()
             ->end();

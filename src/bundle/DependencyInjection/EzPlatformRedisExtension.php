@@ -23,7 +23,8 @@ class EzPlatformRedisExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        $container->setParameter('ezplatform_redis.igbinary', isset($config['igbinary']) ? $config['igbinary'] : false);
-        $container->setParameter('ezplatform_redis.lzf', isset($config['lzf']) ? $config['lzf'] : false);
+        $container->setParameter('ezplatform_redis.serializer', isset($config['serializer']) ? $config['serializer'] : 'native');
+        $container->setParameter('ezplatform_redis.compressor', isset($config['compressor']) ? $config['compressor'] : 'none');
+        $container->setParameter('ezplatform_redis.marshaller', isset($config['marshaller']) ? $config['marshaller'] : 'default');
     }
 }
