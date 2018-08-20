@@ -14,24 +14,14 @@ use EzSystems\EzPlatformRedis\Cache\Serializer\NativeSerializer;
 class ItemSerializerFactory
 {
     /**
-     * @var string
-     */
-    private $serializer;
-
-    public function __construct(string $serializer)
-    {
-        $this->serializer = $serializer;
-    }
-
-    /**
      * @return ItemSerializerInterface
      */
     public function create(): ItemSerializerInterface
     {
-        if ($this->serializer === 'igbinary') {
-            return new IgbinarySerializer();
-        }
+        $nativeSerializer = new NativeSerializer();
 
-        return new NativeSerializer();
+        if (\extension_loaded('igbinary')) {
+            return new IgbinarySerializer($nativeSerializer);
+        }
     }
 }

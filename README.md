@@ -1,11 +1,5 @@
 # eZ Platform Redis
-This package provides possibility to benefit from using different data serializers and compressors when using Redis. 
-
-Currently supported serializers:
-- igbinary
-
-Currently supported compressors:
-- lzf
+This package provides possibility to benefit from using `igbinary` serializer when using Redis. 
 
 # Installation
 Run the following from your eZ Platform installation root:
@@ -21,12 +15,4 @@ $bundles = array(
 ```
 
 # Configuration
-You have to configure the bundle in your `app/config/ezplatform.yml` or `app/config/config.yml` as above:
-
-```yml
-ez_platform_redis:
-    serializer: igbinary    // possible options: native, igbinary
-    compressor: lzf         // possible options: none, lzf
-    marshaller: default     // possible options: default
-```
- 
+The bundle does not need any additional configuration.

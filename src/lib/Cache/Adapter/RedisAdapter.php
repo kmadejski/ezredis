@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace EzSystems\EzPlatformRedis\Cache\Adapter;
 
-use EzSystems\EzPlatformRedis\Cache\MarshallerInterface;
+use EzSystems\EzPlatformRedis\Cache\ItemSerializerInterface;
 use Predis\Response\Status;
 use Symfony\Component\Cache\Adapter\AbstractAdapter;
 use Symfony\Component\Cache\Traits\RedisTrait;
@@ -18,13 +18,13 @@ class RedisAdapter extends AbstractAdapter
     use RedisTrait;
 
     /**
-     * @var MarshallerInterface
+     * @var \EzSystems\EzPlatformRedis\Cache\ItemSerializerInterface
      */
-    private static $marshaller;
+    private static $serializer;
 
-    public function __construct($redisClient, $namespace = '', $defaultLifetime = 0, MarshallerInterface $marshaller = null)
+    public function __construct($redisClient, $namespace = '', $defaultLifetime = 0, ItemSerializerInterface $serializer = null)
     {
-        self::$marshaller = $marshaller;
+        self::$serializer = $serializer;
 
         $this->init($redisClient, $namespace, $defaultLifetime);
     }
@@ -43,7 +43,7 @@ class RedisAdapter extends AbstractAdapter
     {
         $unserializeCallbackHandler = ini_set('unserialize_callback_func', __CLASS__ . '::handleUnserializeCallback');
         try {
-            if (false !== $value = self::$marshaller->unmarshall($value)) {
+            if (false !== $value = self::$serializer->unserialize($value)) {
                 return $value;
             }
             throw new \DomainException('Failed to unserialize cached value');
@@ -70,7 +70,7 @@ class RedisAdapter extends AbstractAdapter
 
         foreach ($values as $id => $value) {
             try {
-                $serialized[$id] = self::$marshaller->marshall($value);
+                $serialized[$id] = self::$serializer->serialize($value);
             } catch (\Exception $e) {
                 $failed[] = $id;
             }

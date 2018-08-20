@@ -18,13 +18,5 @@ class EzPlatformRedisExtension extends Extension
     public function load(array $configs, ContainerBuilder $container)
     {
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
-        $loader->load('services.yml');
-
-        $configuration = new Configuration();
-        $config = $this->processConfiguration($configuration, $configs);
-
-        $container->setParameter('ezplatform_redis.serializer', isset($config['serializer']) ? $config['serializer'] : 'native');
-        $container->setParameter('ezplatform_redis.compressor', isset($config['compressor']) ? $config['compressor'] : 'none');
-        $container->setParameter('ezplatform_redis.marshaller', isset($config['marshaller']) ? $config['marshaller'] : 'default');
-    }
+        $loader->load('services.yml');    }
 }
