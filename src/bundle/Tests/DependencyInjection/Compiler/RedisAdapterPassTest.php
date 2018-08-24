@@ -40,14 +40,9 @@ class RedisAdapterPassTest extends AbstractCompilerPassTestCase
         $cacheAdapterRedisDefinition->setPublic(true);
         $this->setDefinition('cache.adapter.redis', $cacheAdapterRedisDefinition);
 
-        $this->setParameter('ezplatform_redis.serializer', 'igbinary');
-        $this->setParameter('ezplatform_redis.compressor', 'lzf');
-
         $this->compile();
 
-        $this->assertContainerBuilderHasParameter('ezplatform_redis.serializer');
-        $this->assertContainerBuilderHasParameter('ezplatform_redis.compressor');
         $this->assertContainerBuilderHasService('cache.adapter.redis', RedisAdapter::class);
-        $this->assertContainerBuilderHasServiceDefinitionWithArgument('cache.adapter.redis', 2, new Reference(MarshallerInterface::class));
+        $this->assertContainerBuilderHasServiceDefinitionWithArgument('cache.adapter.redis', 2, new Reference(ItemSerializerInterface::class));
     }
 }

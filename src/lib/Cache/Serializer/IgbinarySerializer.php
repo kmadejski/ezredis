@@ -29,12 +29,12 @@ class IgbinarySerializer implements ItemSerializerInterface
 
     public function unserialize(string $serializedItem)
     {
-        // serialized `false`
+        // `false` serialized using native serializer
         if ('b:0;' === $serializedItem) {
             return false;
         }
 
-        // serialized `null`
+        // `null` serialized using native serializer
         if ('N;' === $serializedItem) {
             return null;
         }
