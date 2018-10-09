@@ -23,5 +23,7 @@ class ItemSerializerFactory
         if (\extension_loaded('igbinary')) {
             return new IgbinarySerializer($nativeSerializer);
         }
+
+        return $nativeSerializer;
     }
 }
