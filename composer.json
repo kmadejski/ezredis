@@ -1,7 +1,10 @@
 {
   "name": "ezsystems/ezplatform-redis",
   "description": "eZ Platform Redis Bundle provides support for serializers (igbinary) and compressors (lzf) for Symfony's Redis cache driver",
-
+  "type": "symfony-bundle",
+  "keywords": ["caching"],
+  "homepage": "https://todo.no",
+  "license": "MIT",
   "autoload": {
     "psr-4": {
       "EzSystems\\EzPlatformRedisBundle\\": "src/bundle/",
@@ -14,7 +17,7 @@
     }
   },
   "require": {
-    "php": "^5.6 | ^7.0",
+    "php": "^7.1",
     "symfony/cache": "~3.4",
     "symfony/framework-bundle": "~3.4"
   },
@@ -24,7 +27,13 @@
     "matthiasnoback/symfony-dependency-injection-test": "^2.3",
     "predis/predis": "~1.0"
   },
+  "suggest": {
+    "ext-redis": "This bundle works best with Redis for cache storage, php-redis 3.1.3 or higher needed, or Predis",
+    "ext-igbinary": "Reduce size of cache items & improve unserialization speed"
+
+  },
   "scripts": {
-    "fix-cs": "@php ./vendor/bin/php-cs-fixer fix -v --show-progress=estimating"
+    "fix-cs": "@php ./vendor/bin/php-cs-fixer fix -v --show-progress=estimating",
+    "test": "@php ./vendor/bin/phpunit"
   }
 }
